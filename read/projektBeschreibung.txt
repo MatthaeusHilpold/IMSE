@@ -1,0 +1,116 @@
+
+Die firma:
+CREATE TABLE IF NOT EXISTS Company(
+UidNumber INT NOT NULL AUTO_INCREMENT,
+CompanyName VARCHAR(40) NOT NULL,
+City VARCHAR(25),
+Street VARCHAR(25),
+PRIMARY KEY(UidNumber)
+)ENGINE=INNODB;
+
+
+hat eine gewisse Menge von mitarbeitern:
+
+
+CREATE TABLE IF NOT EXISTS Employee(
+EmployeeId INT NOT NULL AUTO_INCREMENT,
+TelephoneNumber VARCHAR(20) NOT NULL,
+EmployeeName VARCHAR(25) NOT NULL,
+EmployeeSurname VARCHAR(35) NOT NULL,
+BaseSalary INT NOT NULL,
+SupervisorId INT ,
+CompanyUIDNumber INT NOT NULL,
+PRIMARY KEY(EmployeeId),
+FOREIGN KEY(SupervisorId) REFERENCES Employee(EmployeeId)
+)ENGINE=INNODB;
+
+Employee hat seine AutoIncrmented id,  und weitere atribute wie name, surname usw.
+Wichitg ist die unaere beziehung SupervisorId (Jeder Employee hat seinen supervisor, der auch ein Employee ist) deswegen:
+ FOREIGN KEY(SupervisorId) REFERENCES Employee(EmployeeId)
+
+CompanyUIDNumber verweist auf firma, weil Employee dort eingestellt ist.
+
+
+Jeder Employee verwaltet eine gewisse menge von kunden:
+
+CREATE TABLE IF NOT EXISTS Customer(
+CustomerId INT NOT NULL AUTO_INCREMENT,
+CustomerName VARCHAR(25) NOT NULL,
+CustomerSurname VARCHAR(35) NOT NULL,
+CustomerSince DATE NOT NULL,
+EmployeeId INT NOT NULL, 
+PRIMARY KEY(CustomerId),
+FOREIGN KEY(EmployeeId) REFERENCES Employee(EmployeeId)
+)ENGINE=INNODB;
+
+Deshalb: FOREIGN KEY(EmployeeId) REFERENCES Employee(EmployeeId)
+
+Kunde kann EhePartner haben (Weak entity)
+
+CREATE TABLE IF NOT EXISTS Spouse(
+CustomerID INT NOT NULL,
+SpouseName VARCHAR(25) NOT NULL,
+HaveChildren TINYINT NOT NULL,
+SpouseSince DATE NOT NULL,
+PRIMARY KEY(CustomerId, SpouseName),
+FOREIGN KEY(CustomerId) REFERENCES Customer(CustomerId)
+)ENGINE=INNODB;
+
+deswegen hat jedes EhePartner referenz zu customer:   PRIMARY KEY(CustomerId, SpouseName)  und FOREIGN KEY(CustomerId) REFERENCES Customer(CustomerId).
+Die ehePartner muss daher gemeinsam mit customer eingefugt werden. Zuerst Customer, und dann Ehepartner.
+
+Die Firma organisiert Schulungen :
+CREATE TABLE IF NOT EXISTS Schooling(
+SchoolingId INT NOT NULL AUTO_INCREMENT,
+SchoolingName VARCHAR(30) NOT NULL,
+Termin DATE NOT NULL,
+CompanyUIDNUmber INT NOT NULL,
+PRIMARY KEY(SchoolingId),
+FOREIGN KEY(CompanyUIDNumber) REFERENCES Company(UidNumber)
+)ENGINE=INNODB;
+
+Deshalb hat jeder schulung referenz zu firma: FOREIGN KEY(CompanyUIDNumber) REFERENCES Company(UidNumber)
+
+Die Custmers nehmen beim schulungen teil:
+CREATE TABLE IF NOT EXISTS TakePart(
+SchoolingId INT NOT NULL,
+CustomerId INT NOT NULL,
+PRIMARY KEY(SchoolingId, CustomerId),
+FOREIGN KEY(SchoolingId) REFERENCES Schooling(SchoolingId),
+FOREIGN KEY(CustomerId) REFERENCES Customer(CustomerId)
+)ENGINE=INNODB;
+Deshalb beim jedem, zwei foreign keys, auf schulung und auf Customer
+
+Es gibt  auch versicherung:
+CREATE TABLE IF NOT EXISTS Insurance(
+InsuranceId INT NOT NULL AUTO_INCREMENT,
+ValidFrom DATE NOT NULL,
+ValidUntil DATE NOT NULL,
+PRIMARY KEY(insuranceId)
+)ENGINE=INNODB;
+
+Mann kann dovon auch generalisierung machen zb AutoVersicherung, krankenvrsicherung. Aber ich glaub das generalisierung nicht notig ist, oder?
+
+Am ende gibts noch Transaktion. Ein Employee verkauft einen Customer eine versicherung (Ternare beziehung)
+
+CREATE TABLE IF NOT EXISTS Transactionn(
+CustomerId INT NOT NULL,
+EmployeeId INT NOT NULL,
+InsuranceId INT NOT NULL,
+Termin DATE NOT NULL,
+PRIMARY KEY(CustomerId, EmployeeId, InsuranceId),
+FOREIGN KEY(CustomerId) REFERENCES Customer(CustomerId),
+FOREIGN KEY(EmployeeId) REFERENCES Employee(EmployeeId),
+FOREIGN KEY(InsuranceId) REFERENCES Insurance(InsuranceID)
+)ENGINE=INNODB;
+
+Transactionn weil Transaction ein MySql keyword ist.
+
+
+
+
+
+
+
+
+

@@ -52,4 +52,16 @@ public final class DbConnection {
         statement.executeUpdate(query);
         statement.close();
     }
+    
+    public static int executeQueryWithReturn(String query) throws SQLException{
+        logger.info("Query on execute: " + query);
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
+        ResultSet rs = statement.getGeneratedKeys();
+        int ID = 0;
+        ID = rs.getInt(1);
+        logger.info("ID: " + ID);
+        statement.close();
+        return ID;
+    }
 }

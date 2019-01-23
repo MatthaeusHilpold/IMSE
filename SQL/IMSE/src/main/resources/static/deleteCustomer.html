@@ -1,0 +1,42 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="Style.css">
+    <script type="text/javascript" src="script.js"> </script>
+	<script src="//code.jquery.com/jquery.min.js"></script>
+</head>
+
+<body>
+
+<div id="navbar">
+</div>
+
+<script>
+$.get("navbar.html", function(data){
+    $("#navbar").replaceWith(data);
+});
+</script>
+
+
+<div class = "wrapper">
+
+    <form>
+        <input type = "number" placeholder="Customer Id" id = "customerId"
+               onfocus = "this.placeholder = ''"
+               onblur="this.placeholder = 'Customer'">
+        <br/><br/>
+        <button type="button" class="button" onclick="deleteCustomer(customerId)">delete Customer</button>
+        <h1 id="serverResponse">  </h1>
+    </form>
+</div>
+<br><br>
+<p id="demo"> </p>
+<div class = "table" id = "table">
+
+</div>
+
+
+</body>
+</html>

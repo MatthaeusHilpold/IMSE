@@ -1,0 +1,5 @@
+package com.imse.imse.config;
+
+public class WebServer {
+
+}

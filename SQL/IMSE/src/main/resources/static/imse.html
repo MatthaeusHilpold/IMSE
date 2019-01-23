@@ -1,0 +1,27 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="Style.css">
+	<script src="//code.jquery.com/jquery.min.js"></script>
+</head>
+
+<body>
+
+<div id="navbar">
+</div>
+
+<script>
+$.get("navbar.html", function(data){
+    $("#navbar").replaceWith(data);
+});
+</script>
+
+
+
+<br><br><br>
+
+
+</body>
+</html>

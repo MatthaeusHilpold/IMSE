@@ -1,0 +1,57 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="Style.css">
+    <script type="text/javascript" src="script.js"> </script>
+	<script src="//code.jquery.com/jquery.min.js"></script>
+</head>
+
+<body>
+
+<div id="navbar">
+</div>
+
+<script>
+$.get("navbar.html", function(data){
+    $("#navbar").replaceWith(data);
+});
+</script>
+
+<div id = "register_form">
+    <form>
+        <input type = "text" placeholder="Name" id = "employeename"
+               onfocus = "this.placeholder = ''"
+               onblur="this.placeholder = 'Name'">
+        <br/><br/>
+        <input type = "text" placeholder="Surname" id = "surname"
+               onfocus = "this.placeholder = ''"
+               onblur="this.placeholder = 'Surname'">
+        <br/><br/>
+        <input type = "text" placeholder="Base Salary" id = "salary"
+               onfocus = "this.placeholder = ''"
+               onblur="this.placeholder = 'login'">
+        <br/><br/>
+        <input type = "text" placeholder="Supervisor Id" id = "SupervisorId"
+               onfocus = "this.placeholder = ''"
+               onblur="this.placeholder = 'Password'">
+        <br/><br/>
+        <input type = "text" placeholder="Company number" id = "companyUID"
+               onfocus = "this.placeholder = ''"
+               onblur="this.placeholder = 'Confirm Password'">
+        <br/><br/>
+        <input type = "text" placeholder="teleponeNumber" id = "telephone"
+               onfocus = "this.placeholder = ''"
+               onblur="this.placeholder = 'email'">
+
+        <button type="button" class="button" onclick="saveEmployee(employeename,surname,salary,SupervisorId,companyUID,telephone)"
+                value = "SaveEmployee">save Employee</button>
+        <h1 id="serverResponse">  </h1>
+        <p id="demo"></p>
+    </form>
+</div>
+
+</body>
+
+</html>

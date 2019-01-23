@@ -1,0 +1,24 @@
+package com.imse.imse;
+
+public class Initializer {
+	
+	public static void initializeDb() {
+		
+		StringBuilder companyInserter = new StringBuilder();
+        companyInserter.append("INSERT INTO Employee VALUES( ");
+		companyInserter.append("'UniWienVersicherungen', ");
+		companyInserter.append("'Schottentor 1', ");
+		companyInserter.append("'Wien', ");
+		
+        StringBuilder wanekInserter = new StringBuilder();
+        wanekInserter.append("INSERT INTO Employee VALUES( ");
+        wanekInserter.append("'Helmuth', ");
+        wanekInserter.append("'Wanek', ");
+        wanekInserter.append("12345, ");
+        wanekInserter.append("06806666666, ");
+        wanekInserter.append("1, ");
+        wanekInserter.append("1 ");
+        wanekInserter.append(")");
+	}
+
+}

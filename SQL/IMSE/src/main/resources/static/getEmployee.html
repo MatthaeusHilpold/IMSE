@@ -1,0 +1,41 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="Style.css">
+    <script type="text/javascript" src="script.js"> </script>
+	<script src="//code.jquery.com/jquery.min.js"></script>
+</head>
+
+<body>
+
+<div id="navbar">
+</div>
+
+<script>
+$.get("navbar.html", function(data){
+    $("#navbar").replaceWith(data);
+});
+</script>
+
+
+<div class = "wrapper">
+    <div class = "idInput">
+        <input type = "text" placeholder="EmployeeId" id = "EmployeeId"
+       onfocus = "this.placeholder = ''"
+       onblur="this.placeholder = 'EmployeeID'">
+<br/>
+        <input type="submit" value="Submit" onclick= findEmployeeRequest()>
+    </div>
+</div>
+
+<br><br>
+
+<div class = "table" id = "table">
+
+</div>
+
+
+</body>
+</html>

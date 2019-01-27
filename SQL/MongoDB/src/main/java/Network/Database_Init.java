@@ -12,14 +12,12 @@ public class Database_Init {
     public MongoDatabase init(MongoClient mongoClient,String Name)
     {
             MongoDatabase database = mongoClient.getDatabase(Name);
-            System.out.println(mongoClient.listDatabases().first());
             return database;
     }
 
     public void delete(MongoClient mongo,String name)
     {
         MongoIterable<String> list=mongo.listDatabaseNames();
-
         MongoCursor<String> cursor = list.iterator();
         while(cursor.hasNext())
         {
@@ -30,7 +28,6 @@ public class Database_Init {
                 break;
             }
         }
-
     }
 
     public String insert(MongoDatabase database)
@@ -44,7 +41,6 @@ public class Database_Init {
                 .append("surname", "Dreibein")
                 .append("employee", "123");
         coll.insertOne(person);
-
 
         return json.toString();
     }

@@ -1,10 +1,13 @@
 package com.imse.imse.config;
 import com.imse.imse.DAO.EmployeeDAO;
 import com.imse.imse.HTMLTableMapper;
+import com.imse.imse.domain.Customer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 /*  dataBase user und password musst ihr beim instalation von mySql server angeben, wenn anders dann diese
  * parameter andern. databaseURL wirds gleich sein */
@@ -18,7 +21,7 @@ public final class DbConnection {
 
     private static final String user = "root";
 
-    private static final String password = "NeuesPasswort";
+    private static final String password = "NeuesPassword";
 
     private static Connection connection = null;
 
@@ -74,5 +77,29 @@ public final class DbConnection {
         logger.info("ID: " + ID);
         statement.close();
         return ID;
+    }
+
+    private static ResultSet executeSelectAllQuery(String query) throws SQLException{
+        logger.info("Query on execute: " + query);
+        PreparedStatement statement = connection.prepareStatement(query);
+        ResultSet resultSet = statement.executeQuery();
+        return resultSet;
+    }
+
+    public static ArrayList<Customer> getAllCustomers() throws SQLException {
+        ResultSet rs = executeSelectAllQuery("Select * from Customer");
+        ArrayList<Customer> rsarray = new ArrayList<Customer>();
+        while (rs.next()) {
+            Customer newcustomer = new Customer();
+            newcustomer.setCustomerName(rs.getString("CustomerName"));
+            newcustomer.setCustomerSurname(rs.getString("CustomerSurname"));
+            newcustomer.setCustomerSince(rs.getDate("CustomerSince").toLocalDate());
+            newcustomer.setEmployeeId(rs.getInt("EmployeeId"));
+            newcustomer.setCustomerId(rs.getInt("CustomerId"));
+
+            rsarray.add(newcustomer);
+        }
+
+        return rsarray;
     }
 }

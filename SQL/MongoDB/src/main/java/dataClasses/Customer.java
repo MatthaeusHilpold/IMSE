@@ -1,95 +1,110 @@
 package dataClasses;
 
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 public class Customer {
 
-    private int customerId;
+    private int CustomerId;
 
-    private String customerName;
+    private String CustomerName;
 
-    private String customerSurname;
+    private String CustomerSurname;
 
-    private LocalDate customerSince;
+    private LocalDate CustomerSince;
 
-    private int employeeId;
+    private int EmployeeId;
 
-    public Customer(String name, String surname, int employee) {
-        this.customerName = name;
-        this.customerSurname = surname;
-        this.customerSince = LocalDate.now();
-        this.employeeId = employee;
+    public Customer() {
+        //TODO
     }
 
+    public Customer(String name, String surname, int Employee) {
+        this.CustomerName = name;
+        this.CustomerSurname = surname;
+        this.CustomerSince = LocalDate.now();
+        this.EmployeeId = Employee;
+    }
+
+    public Customer(int CustomerId, String name, String surname, LocalDate CustomerSince, int Employee) {
+        this.CustomerId = CustomerId;
+        this.CustomerName = name;
+        this.CustomerSurname = surname;
+        this.CustomerSince = CustomerSince;
+        this.EmployeeId = Employee;
+    }
+
+
+
     /**
-     * @return the customerId
+     * @return the CustomerId
      */
     public int getCustomerId() {
-        return customerId;
+        return CustomerId;
     }
 
     /**
-     * @param customerId the customerId to set
+     * @param CustomerId the CustomerId to set
      */
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void setCustomerId(int CustomerId) {
+        this.CustomerId = CustomerId;
     }
 
     /**
-     * @return the customerName
+     * @return the CustomerName
      */
     public String getCustomerName() {
-        return customerName;
+        return CustomerName;
     }
 
     /**
-     * @param customerName the customerName to set
+     * @param CustomerName the CustomerName to set
      */
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public void setCustomerName(String CustomerName) {
+        this.CustomerName = CustomerName;
     }
 
     /**
-     * @return the customerSurname
+     * @return the CustomerSurname
      */
     public String getCustomerSurname() {
-        return customerSurname;
+        return CustomerSurname;
     }
 
     /**
-     * @param customerSurname the customerSurname to set
+     * @param CustomerSurname the CustomerSurname to set
      */
-    public void setCustomerSurname(String customerSurname) {
-        this.customerSurname = customerSurname;
+    public void setCustomerSurname(String CustomerSurname) {
+        this.CustomerSurname = CustomerSurname;
     }
 
     /**
-     * @return the customerSince
+     * @return the CustomerSince
      */
     public LocalDate getCustomerSince() {
-        return customerSince;
+        return CustomerSince;
     }
 
     /**
-     * @param customerSince the customerSince to set
+     * @param CustomerSince the CustomerSince to set
      */
-    public void setCustomerSince(LocalDate customerSince) {
-        this.customerSince = customerSince;
+    public void setCustomerSince(LocalDate CustomerSince) {
+        this.CustomerSince = CustomerSince;
     }
 
     /**
-     * @return the employeeId
+     * @return the EmployeeId
      */
     public int getEmployeeId() {
-        return employeeId;
+        return EmployeeId;
     }
 
     /**
-     * @param employeeId the employeeId to set
+     * @param EmployeeId the EmployeeId to set
      */
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
+    public void setEmployeeId(int EmployeeId) {
+        this.EmployeeId = EmployeeId;
     }
 
 }

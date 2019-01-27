@@ -22,6 +22,9 @@ public class Customer {
         this.employeeId = employee;
     }
 
+    public Customer() {
+    }
+
     /**
      * @return the customerId
      */

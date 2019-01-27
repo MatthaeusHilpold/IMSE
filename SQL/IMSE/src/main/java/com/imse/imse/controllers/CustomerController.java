@@ -2,6 +2,7 @@ package com.imse.imse.controllers;
 
 
 
+import com.imse.imse.config.DbConnection;
 import com.imse.imse.domain.Customer;
 import com.imse.imse.domain.Spouse;
 import com.imse.imse.service.CustomerService;
@@ -11,7 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Array;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @CrossOrigin
@@ -65,6 +69,33 @@ public class CustomerController {
         } catch (SQLException exc) {
             return new ResponseEntity<String>(exc.getMessage(),HttpStatus.CONFLICT);
         }
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/getAllCustomers", method = RequestMethod.GET)
+    public ResponseEntity<ArrayList<Customer>> getAllCustomers(){
+
+        ArrayList<Customer> list = new ArrayList<Customer>();
+       // List<JSONObject> entities = new ArrayList<JSONObject>();
+        try {
+            list = DbConnection.getAllCustomers();
+           /* for (Customer c : list) {
+                JSONObject entity = new JSONObject();
+                entity.put("CustomerId", c.getCustomerId());
+                entity.put("CustomerName", c.getCustomerName());
+                entity.put("CustomerSurname", c.getCustomerSurname());
+                entity.put("CustomerSince", c.getCustomerSince());
+                entity.put("EmployeeId", c.getEmployeeId());
+                entities.add(entity);
+            } */
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(list.size()!=0)
+            return new ResponseEntity<ArrayList<Customer>>(list, HttpStatus.OK);
+        else
+            return new ResponseEntity<ArrayList<Customer>>(list, HttpStatus.NO_CONTENT);
+
     }
 
 

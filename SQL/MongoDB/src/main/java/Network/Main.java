@@ -2,6 +2,7 @@ package Network;
 
 
 
+import Migration.Migrator;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
@@ -18,12 +19,14 @@ public class Main {
 
     public static void main(String[] args) {
         logger.info("Starting Server!");
-        MongoClient mongo=MongoClients.create();
+        MongoClient mongo=MongoClients.create("mongodb://localhost:27017");
         Database_Init test=new Database_Init();
-        MongoDatabase db=test.init(mongo,"ab");
-        System.out.println(test.insert(db));
+        MongoDatabase db=test.init(mongo,"InsuranceCompanyMigrated");
+        //System.out.println(test.insert(db));
+        Migrator.migrateCustomers(db);
         SpringApplication app = new SpringApplication(Main.class);
         app.setBannerMode(Banner.Mode.OFF);
         app.run(args);
+        mongo.close();
     }
 }

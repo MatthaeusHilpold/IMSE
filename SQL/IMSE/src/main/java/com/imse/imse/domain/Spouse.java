@@ -18,6 +18,15 @@ public class Spouse {
         this.spouseSince = LocalDate.now();
     }
 
+    public Spouse(String name, byte hasChildren, LocalDate spouseSince) {
+        this.spouseName = name;
+        this.hasChildren = hasChildren;
+        this.spouseSince = spouseSince;
+    }
+
+    public Spouse() {
+    }
+
     /**
      * @return the customerId
      */

@@ -2,6 +2,7 @@ package com.imse.imse.config;
 import com.imse.imse.DAO.EmployeeDAO;
 import com.imse.imse.HTMLTableMapper;
 import com.imse.imse.domain.Customer;
+import com.imse.imse.domain.Spouse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
@@ -98,6 +99,21 @@ public final class DbConnection {
             newcustomer.setCustomerId(rs.getInt("CustomerId"));
 
             rsarray.add(newcustomer);
+        }
+
+        return rsarray;
+    }
+
+    public static ArrayList<Spouse> getAllSpouses() throws SQLException {
+        ResultSet rs = executeSelectAllQuery("Select * from Spouse");
+        ArrayList<Spouse> rsarray = new ArrayList<Spouse>();
+        while (rs.next()) {
+            Spouse newspouse = new Spouse();
+            newspouse.setCustomerId(rs.getInt("CustomerID"));
+            newspouse.setSpouseName(rs.getString("SpouseName"));
+            newspouse.setHasChildren(rs.getByte("HaveChildren"));
+            newspouse.setSpouseSince(rs.getDate("SpouseSince").toLocalDate());
+            rsarray.add(newspouse);
         }
 
         return rsarray;

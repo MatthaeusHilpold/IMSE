@@ -12,10 +12,21 @@ public class Spouse {
 
     private LocalDate spouseSince;
 
+    public  Spouse() {
+        //TODO
+    }
+
     public Spouse(String name, byte hasChildren) {
         this.spouseName = name;
         this.hasChildren = hasChildren;
         this.spouseSince = LocalDate.now();
+    }
+
+    public Spouse(int customerId, String name, byte hasChildren, LocalDate spouseSince) {
+        this.customerId = customerId;
+        this.spouseName = name;
+        this.hasChildren = hasChildren;
+        this.spouseSince = spouseSince;
     }
 
     /**

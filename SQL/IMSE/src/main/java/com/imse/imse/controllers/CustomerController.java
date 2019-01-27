@@ -98,6 +98,23 @@ public class CustomerController {
 
     }
 
+    @CrossOrigin
+    @RequestMapping(value = "/getAllSpouses", method = RequestMethod.GET)
+    public ResponseEntity<ArrayList<Spouse>> getAllSpouses(){
+
+        ArrayList<Spouse> list = new ArrayList<Spouse>();
+        try {
+            list = DbConnection.getAllSpouses();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(list.size()!=0)
+            return new ResponseEntity<ArrayList<Spouse>>(list, HttpStatus.OK);
+        else
+            return new ResponseEntity<ArrayList<Spouse>>(list, HttpStatus.NO_CONTENT);
+
+    }
+
 
 
 

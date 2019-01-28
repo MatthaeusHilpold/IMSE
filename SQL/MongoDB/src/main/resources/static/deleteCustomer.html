@@ -1,0 +1,53 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="Style.css">
+    <script type="text/javascript" src="script.js"> </script>
+    <script src="//code.jquery.com/jquery.min.js"></script>
+</head>
+
+<body onload="getAllCustomersRequest()">
+
+<div id="navbar">
+</div>
+
+<script>
+    $.get("navbar.html", function(data){
+        $("#navbar").replaceWith(data);
+    });
+</script>
+
+<div class = "wrapper">
+    <div class = "idInput">
+        <input type = "text" placeholder="CustomerId" id = "CustomerId"
+               onfocus = "this.placeholder = ''"
+               onblur="this.placeholder = 'CustomerId'">
+        <br/>
+        <button type="button" class="button" onclick="deleteCustomer(CustomerId)">delete Customer</button>
+    </div>
+
+    <br><br>
+    <div class = "idInput">
+        <input type = "text" placeholder="Customer Surname" id = "CustomerSurname"
+               onfocus = "this.placeholder = ''"
+               onblur="this.placeholder = 'Customer Surname'">
+        <br/>
+        <button type="button" class="button" onclick="findCustomerBySurname(CustomerSurname)">find Customer</button>
+    </div>
+
+    <br><br>
+
+</div>
+
+<br><br>
+
+<div class = "table" id = "CustomersTable">
+
+
+</div>
+
+
+</body>
+</html>

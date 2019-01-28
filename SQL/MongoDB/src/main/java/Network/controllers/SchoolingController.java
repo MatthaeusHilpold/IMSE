@@ -97,13 +97,12 @@ public class SchoolingController {
 
     @CrossOrigin
     @GetMapping(value = "getSchooling/{id}")
-    public ResponseEntity<String> getAllSchoolings(@PathVariable(value = "id") int id){
+    public ResponseEntity<String> getSchoolingByName(@PathVariable(value = "id") String id){
         String response=null;
         ArrayList<JSONObject> entities = new ArrayList<JSONObject>();
         try {
             init=new Database_Init(mongo,name);
-            Integer sid = new Integer(id);
-            FindIterable<Document> docs=init.findById((Object)sid, "Customers", "schooling_ID");
+            FindIterable<Document> docs=init.findBySurname(id, "Schoolings", "schooling");
 
             response = HTMLTableMapper.mapSchoolingToHtmlTable(docs);
 

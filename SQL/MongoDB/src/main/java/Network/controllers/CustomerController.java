@@ -120,7 +120,7 @@ public class CustomerController {
         ArrayList<JSONObject> entities = new ArrayList<JSONObject>();
         try {
             init=new Database_Init(mongo,name);
-            FindIterable<Document> docs=init.findById((Object) surname, "Customers", "customerSurname");
+            FindIterable<Document> docs=init.findBySurname(surname, "Customers", "customerSurname");
 
             response = HTMLTableMapper.mapCustomerToHTMLTable(docs);
 

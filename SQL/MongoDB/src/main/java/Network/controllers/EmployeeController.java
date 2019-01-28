@@ -105,7 +105,7 @@ public class EmployeeController {
         ArrayList<JSONObject> entities = new ArrayList<JSONObject>();
         try {
             init=new Database_Init(mongo,name);
-            FindIterable<Document> docs=init.findById((Object)surname, "Employees", "surname");
+            FindIterable<Document> docs=init.findBySurname(surname, "Employees", "surname");
 
             response = HTMLTableMapper.mapEmployeeToHTMLTable(docs);
 

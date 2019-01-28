@@ -11,7 +11,7 @@
 
 <div id="navbar">
 </div>
-
+<button type="button" class="button" onclick="migrateData()">migrate all data from SQL to MongoDb</button>
 <script>
 $.get("navbar.html", function(data){
     $("#navbar").replaceWith(data);

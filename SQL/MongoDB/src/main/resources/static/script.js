@@ -36,6 +36,11 @@ function saveSchooling(Schooling_Name,Termin,CompanyUIDNumber)
     add("http://localhost:5050/schooling/add",commentJson);
 }
 
+function migrateData()
+{
+    add("http://localhost:5050/migrateData");
+}
+
 function saveCustomer(customerName, surname, supervisorId)
 {
     var commentJson = {"CustomerName": customerName.value, "CustomerSurname": surname.value,"employeeId": supervisorId.value};

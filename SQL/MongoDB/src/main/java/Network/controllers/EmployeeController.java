@@ -1,6 +1,7 @@
 package Network.controllers;
 
 import Network.Database_Init;
+import Network.HTMLTableMapper;
 import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.DeleteResult;
@@ -74,33 +75,23 @@ public class EmployeeController {
 
     @CrossOrigin
     @RequestMapping(value = "/getAllEmployees", method = RequestMethod.GET)
-    public ResponseEntity<ArrayList<JSONObject>> getAllEmployees(){
-
+    public ResponseEntity<String> getAllEmployees(){
+        String response=null;
         ArrayList<JSONObject> entities = new ArrayList<JSONObject>();
         try {
             init=new Database_Init(mongo,name);
             FindIterable<Document> docs=init.getAll("Employees");
 
-            for (Document doc  : docs) {
-                JSONObject entity = new JSONObject();
-                entity.put("EmployeeId", doc.getInteger("ID"));
-                entity.put("telephoneNumber",doc.getString("telephoneNumber"));
-                entity.put("name", doc.getString("name"));
-                entity.put("surname",doc.getString("surname"));
-                entity.put("CompanyUIDNUmber",doc.getString("CompanyUIDNumber"));
-                entity.put("baseSalary", doc.getInteger("baseSalary"));
-                entity.put("supervisorId",doc.getInteger("supervisorId"));
-                entities.add(entity);
-            }
+            response = HTMLTableMapper.mapEmployeeToHTMLTable(docs);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        if(entities.size()!=0)
-            return new ResponseEntity<ArrayList<JSONObject>>(entities, HttpStatus.OK);
+        if(!response.isEmpty())
+            return new ResponseEntity<String>(response, HttpStatus.OK);
         else
-            return new ResponseEntity<ArrayList<JSONObject>>(entities, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<String>(response, HttpStatus.NO_CONTENT);
 
     }
 

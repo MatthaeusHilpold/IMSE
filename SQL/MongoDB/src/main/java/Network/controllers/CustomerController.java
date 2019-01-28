@@ -2,6 +2,7 @@ package Network.controllers;
 
 
 import Network.Database_Init;
+import Network.HTMLTableMapper;
 import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.DeleteResult;
@@ -38,20 +39,26 @@ public class CustomerController {
             JSONObject json = new JSONObject(jsonString);
             init=new Database_Init(mongo,name);
             db=init.getDb();
-            System.out.println("Customer Surname: " + json.get("CustomerSurname".toString()));
             if(!json.has("Spouse"))
             {
-                MongoCollection<Document> coll = db.getCollection("Customer");
-                Document person = new Document("_id", 1)
-                        .append("name", json.get("CustomerName").toString())
-                        .append("surname", json.get("CustomerSurname").toString())
-                        .append("employee", Integer.parseInt(json.get("employeeId").toString()));
+                Customer newcustomer = new Customer(json.get("CustomerName").toString(), json.get("CustomerSurname").toString(), json.getInt("employeeId"));
+                MongoCollection<Document> coll = db.getCollection("Customers");
+                Document date = new Document()
+                        .append("year", newcustomer.getCustomerSince().getYear())
+                        .append("monthValue", newcustomer.getCustomerSince().getMonthValue())
+                        .append("dayOfMonth", newcustomer.getCustomerSince().getDayOfMonth());
+                Document person = new Document("_id", id.incrementAndGet())
+                        .append("customerId", null)
+                        .append("customerSince", date)
+                        .append("customerName", newcustomer.getCustomerName())
+                        .append("customerSurname", newcustomer.getCustomerSurname())
+                        .append("employeeId", newcustomer.getEmployeeId());
                 coll.insertOne(person);
-
+                System.out.println("Customer Surname: " + person.getString("CustomerName"));
                 return new ResponseEntity<String>(HttpStatus.CREATED);
             } else {
-                JSONObject spouse = new JSONObject(json.getJSONObject("Spouse"));
-                MongoCollection<Document> coll = db.getCollection("Customer");
+                /*JSONObject spouse = new JSONObject(json.getJSONObject("Spouse"));
+                MongoCollection<Document> coll = db.getCollection("Customers");
                 Spouse NewSpouse=new Spouse(spouse.get("SpouseName").toString(),
                         (byte)spouse.getInt("HasChildren"));
                 Document addSpouse = new Document()
@@ -63,6 +70,7 @@ public class CustomerController {
                         .append("surname", json.get("CustomerSurname").toString())
                         .append("EmployeeId", Integer.parseInt(json.get("EmployeeId").toString()))
                         .append("Spouse",addSpouse);
+                coll.insertOne(person);*/
                 return new ResponseEntity<String>(HttpStatus.CREATED);
             }
         } catch (Exception exc)
@@ -93,30 +101,23 @@ public class CustomerController {
 
     @CrossOrigin
     @RequestMapping(value = "/getAllCustomers", method = RequestMethod.GET)
-    public ResponseEntity<ArrayList<Customer>> getAllCustomers(){
-
-        ArrayList<Customer> list = new ArrayList<Customer>();
-        List<JSONObject> entities = new ArrayList<JSONObject>();
+    public ResponseEntity<String> getAllCustomers(){
+        String response=null;
+        ArrayList<JSONObject> entities = new ArrayList<JSONObject>();
         try {
-             init=new Database_Init(mongo,name);
+            init=new Database_Init(mongo,name);
             FindIterable<Document> docs=init.getAll("Customers");
 
-             for (Document doc  : docs) {
-                JSONObject entity = new JSONObject();
-                entity.put("CustomerId", doc.get("ID"));
-                entity.put("CustomerName", doc.getString("customerName"));
-                entity.put("CustomerSurname", doc.getString("customerSurname"));
-                entity.put("CustomerSince", doc.getString("CustomerSince"));
-                entity.put("EmployeeId", doc.getInteger("EmployeeId"));
-                entities.add(entity);
-            }
+            response = HTMLTableMapper.mapCustomerToHTMLTable(docs);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(list.size()!=0)
-            return new ResponseEntity<ArrayList<Customer>>(list, HttpStatus.OK);
+
+        if(!response.isEmpty())
+            return new ResponseEntity<String>(response, HttpStatus.OK);
         else
-            return new ResponseEntity<ArrayList<Customer>>(list, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<String>(response, HttpStatus.NO_CONTENT);
 
     }
 

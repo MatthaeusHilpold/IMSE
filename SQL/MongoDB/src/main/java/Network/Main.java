@@ -24,6 +24,7 @@ public class Main {
         Database_Init db_init = new Database_Init(mongo, "InsuranceCompanyMigrated");
         MongoDatabase db = db_init.getDb();
 
+
         SpringApplication app = new SpringApplication(Main.class);
         app.setBannerMode(Banner.Mode.OFF);
         app.run(args);

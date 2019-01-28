@@ -1,10 +1,8 @@
 package Network.controllers;
 
 import Network.Database_Init;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+import Network.HTMLTableMapper;
+import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.DeleteResult;
 import org.bson.Document;
@@ -14,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @CrossOrigin
@@ -64,6 +63,28 @@ public class SchoolingController {
         } catch (Exception exc) {
             return new ResponseEntity<String>(exc.getMessage(),HttpStatus.CONFLICT);
         }
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/getAllSchoolings", method = RequestMethod.GET)
+    public ResponseEntity<String> getAllSchoolings(){
+        String response=null;
+        ArrayList<JSONObject> entities = new ArrayList<JSONObject>();
+        try {
+            init=new Database_Init(mongo,name);
+            FindIterable<Document> docs=init.getAll("Schoolings");
+
+            response = HTMLTableMapper.mapSchoolingToHtmlTable(docs);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(!response.isEmpty())
+            return new ResponseEntity<String>(response, HttpStatus.OK);
+        else
+            return new ResponseEntity<String>(response, HttpStatus.NO_CONTENT);
+
     }
 
 }

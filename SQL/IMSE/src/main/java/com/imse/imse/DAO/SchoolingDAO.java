@@ -50,6 +50,7 @@ public class SchoolingDAO implements ISchoolingDAO {
         StringBuilder query = new StringBuilder();
         query.append("DELETE FROM Schooling WHERE SchoolingId = ");
         query.append(id);
+        query.append("");
 
         DbConnection.executeQuery(query.toString());
     }

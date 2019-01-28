@@ -19,7 +19,7 @@ import java.util.Map;
 public class Migrator {
 
     public static ArrayList<SQLCustomer> getCustomersFromSQL() {
-        final String customerurl = "http://localhost:8080/customer/getAllCustomers";
+        final String customerurl = "http://localhost:8080/customer/getAllCustomersAsObject";
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<SQLCustomer[]> cusresult = restTemplate.getForEntity(customerurl, SQLCustomer[].class);

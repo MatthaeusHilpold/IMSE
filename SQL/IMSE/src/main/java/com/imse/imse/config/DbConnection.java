@@ -1,5 +1,4 @@
 package com.imse.imse.config;
-import com.imse.imse.DAO.EmployeeDAO;
 import com.imse.imse.HTMLTableMapper;
 import com.imse.imse.domain.Customer;
 import com.imse.imse.domain.Employee;
@@ -7,7 +6,6 @@ import com.imse.imse.domain.Schooling;
 import com.imse.imse.domain.Spouse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONObject;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -65,7 +63,8 @@ public final class DbConnection {
         PreparedStatement ps = connection.prepareStatement(query);
         ResultSet rs = ps.executeQuery();
         if(objectType.equalsIgnoreCase("Employee")) return HTMLTableMapper.mapEmployeeToHTMLTable(rs);
-
+        else if(objectType.equalsIgnoreCase("Customer")) return HTMLTableMapper.mapCustomerToHTMLTable(rs);
+        else if(objectType.equalsIgnoreCase("Schooling")) return HTMLTableMapper.mapSchoolingToHtmlTable(rs);
 
         return rs.toString();
     }

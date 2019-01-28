@@ -73,8 +73,8 @@ public class CustomerController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/getAllCustomers", method = RequestMethod.GET)
-    public ResponseEntity<ArrayList<Customer>> getAllCustomers(){
+    @RequestMapping(value = "/getAllCustomersAsObject", method = RequestMethod.GET)
+    public ResponseEntity<ArrayList<Customer>> getAllCustomersAsObject(){
 
         ArrayList<Customer> list = new ArrayList<Customer>();
        // List<JSONObject> entities = new ArrayList<JSONObject>();
@@ -88,6 +88,17 @@ public class CustomerController {
         else
             return new ResponseEntity<ArrayList<Customer>>(list, HttpStatus.NO_CONTENT);
 
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "getAllCustomers" )
+    public ResponseEntity<String> getAllCustomers(){
+        try {
+            String result = customerService.getAllCustomers();
+            return new ResponseEntity<String>(result,HttpStatus.OK);
+        } catch (SQLException exc) {
+            return new ResponseEntity<String>(exc.getMessage(),HttpStatus.CONFLICT);
+        }
     }
 
     @CrossOrigin

@@ -78,9 +78,22 @@ public class SchoolingController {
     }
 
     @CrossOrigin
+    @GetMapping(value = "getAllSchoolings" )
+    public ResponseEntity<String> getAllCustomers(){
+        try {
+            String result = schoolingService.getAllSchoolings();
+            return new ResponseEntity<String>(result,HttpStatus.OK);
+        } catch (SQLException exc) {
+            return new ResponseEntity<String>(exc.getMessage(),HttpStatus.CONFLICT);
+        }
+    }
+
+    @CrossOrigin
     @GetMapping(value = "fillWithData" )
     public ResponseEntity<String> fillTableWithData() {
         DataInsert.fillSchoolingTable();
         return new ResponseEntity<String>(HttpStatus.OK);
     }
+
+    
 }

@@ -1,21 +1,31 @@
 package Network;
 
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.client.*;
-import dataClasses.Customer;
 import org.bson.Document;
-import org.json.JSONObject;
 
 
 public class Database_Init {
 
-    public MongoDatabase init(MongoClient mongoClient,String Name)
+
+    private MongoClient mongo;
+    private String name;
+    private MongoDatabase db;
+
+    public Database_Init(MongoClient mongo,String name)
     {
-            MongoDatabase database = mongoClient.getDatabase(Name);
-            return database;
+        this.mongo=mongo;
+        this.name=name;
+        db = mongo.getDatabase(name);
     }
 
-    public void delete(MongoClient mongo,String name)
+    public MongoDatabase getDb()
+    {
+        return db;
+    }
+
+    public void delete()
     {
         MongoIterable<String> list=mongo.listDatabaseNames();
         MongoCursor<String> cursor = list.iterator();
@@ -30,19 +40,18 @@ public class Database_Init {
         }
     }
 
-    public String insert(MongoDatabase database)
+    public FindIterable<Document> getAll(String name)
     {
+        MongoCollection<Document> col=db.getCollection(name);
+        FindIterable<Document> docs=col.find();
+        return docs;
+    }
 
-        Customer cust=new Customer("Gunther","Dreibein",123);
-        MongoCollection<Document> coll = database.getCollection("TestCollection");
-        JSONObject json=new JSONObject(cust);
-        Document person = new Document("_id", 1)
-                .append("name", "Gunther")
-                .append("surname", "Dreibein")
-                .append("employee", "123");
-        coll.insertOne(person);
-
-        return json.toString();
+    public FindIterable<Document> findById(Integer ID,String name)
+    {
+        MongoCollection<Document> col=db.getCollection(name);
+        FindIterable<Document> docs=col.find(new BasicDBObject("ID",ID));
+        return docs;
     }
 
 }

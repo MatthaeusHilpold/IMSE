@@ -11,6 +11,8 @@ public interface IEmployeeService {
 
     String findById(int id) throws SQLException;
 
+    String findBySurname(String surname) throws SQLException;
+
     String getAllEmployees() throws SQLException;
 
     void saveEmployee(Employee employee) throws SQLException;

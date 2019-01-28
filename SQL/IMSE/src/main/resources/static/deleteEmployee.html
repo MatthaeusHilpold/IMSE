@@ -8,7 +8,7 @@
 	<script src="//code.jquery.com/jquery.min.js"></script>
 </head>
 
-<body>
+<body onload="getAllEmployeesRequest()">
 
 <div id="navbar">
 </div>
@@ -20,18 +20,29 @@ $.get("navbar.html", function(data){
 </script>
 
 <div class = "wrapper">
+
     <div class = "idInput">
         <input type = "text" placeholder="EmployeeId" id = "EmployeeId"
                onfocus = "this.placeholder = ''"
                onblur="this.placeholder = 'EmployeeID'">
         <br/>
-        <input type="submit" value="Submit" onclick= removeEmployeeRequest()>
+        <button type="button" class="button" onclick="deleteEmployee(EmployeeId)">delete Employee</button>
     </div>
+<br><br>
+    <div class = "idInput">
+        <input type = "text" placeholder="Employee Surname" id = "EmployeeSurname"
+               onfocus = "this.placeholder = ''"
+               onblur="this.placeholder = 'Employee Surname'">
+        <br/>
+        <button type="button" class="button" onclick="findEmployeeBySurname(EmployeeSurname)">find Employee</button>
+    </div>
+
 </div>
 
 <br><br>
 
-<div class = "table" id = "table">
+<div class = "table" id = "EmployeeTable">
+
 
 </div>
 

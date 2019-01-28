@@ -10,11 +10,13 @@ public interface ISchoolingDAO {
 
         Schooling findById(String id);
 
-        Schooling findByName(String schooling);
+        String findByName(String schoolingName) throws SQLException;
 
         void saveSchooling(Schooling schooling) throws SQLException;
 
         void deleteSchooling(int id) throws SQLException;
+
+        String getAllSchoolings() throws SQLException;
 
 
 }

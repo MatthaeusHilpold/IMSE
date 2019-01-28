@@ -11,7 +11,7 @@ public interface ICustomerDAO {
 
     Customer findById(String id);
 
-    Customer findBySurname(String surname);
+    String findBySurname(String surname ) throws SQLException;
 
     void saveCustomer(Customer customer, Spouse spouse) throws SQLException;
 
@@ -19,5 +19,6 @@ public interface ICustomerDAO {
 
     void deleteCustomerById(int id) throws SQLException;
 
+    String getAllCustomers() throws SQLException;
 }
 

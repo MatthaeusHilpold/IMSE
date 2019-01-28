@@ -1,5 +1,6 @@
 package com.imse.imse.controllers;
 
+import com.imse.imse.DataInsert.DataInsert;
 import com.imse.imse.config.DbConnection;
 import com.imse.imse.domain.Employee;
 import com.imse.imse.domain.Schooling;
@@ -63,5 +64,23 @@ public class SchoolingController {
         else
             return new ResponseEntity<ArrayList<Schooling>>(list, HttpStatus.NO_CONTENT);
 
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "getSchooling/{name}" )
+    public ResponseEntity<String> getSchoolingByName(@PathVariable(value = "name") String name){
+        try {
+            String result = schoolingService.findByName(name);
+            return new ResponseEntity<String>(result,HttpStatus.OK);
+        } catch (SQLException exc) {
+            return new ResponseEntity<String>(exc.getMessage(),HttpStatus.CONFLICT);
+        }
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "fillWithData" )
+    public ResponseEntity<String> fillTableWithData() {
+        DataInsert.fillSchoolingTable();
+        return new ResponseEntity<String>(HttpStatus.OK);
     }
 }

@@ -17,11 +17,6 @@ public class SchoolingDAO implements ISchoolingDAO {
     }
 
     @Override
-    public Schooling findByName(String schooling) {
-        return null;
-    }
-
-    @Override
     public void saveSchooling(Schooling schooling) throws SQLException {
 
         StringBuilder saveUserQuery = new StringBuilder();
@@ -41,11 +36,28 @@ public class SchoolingDAO implements ISchoolingDAO {
     }
 
     @Override
+    public String findByName(String schoolingName) throws SQLException{
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM Schooling WHERE SchoolingName = ");
+        query.append("'");
+        query.append(schoolingName);
+        query.append("'");
+        return DbConnection.executeSelectQuery(query.toString(),"Schooling");
+    }
+
+    @Override
     public void deleteSchooling(int id) throws SQLException {
         StringBuilder query = new StringBuilder();
         query.append("DELETE FROM Schooling WHERE SchoolingId = ");
         query.append(id);
 
         DbConnection.executeQuery(query.toString());
+    }
+
+    @Override
+    public String getAllSchoolings() throws SQLException {
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM Schooling");
+        return DbConnection.executeSelectQuery(query.toString(), "Schooling");
     }
 }

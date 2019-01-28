@@ -8,7 +8,7 @@
     <script src="//code.jquery.com/jquery.min.js"></script>
 </head>
 
-<body onload="getAllCustomersRequest()">
+<body onload="getAllSchoolingsRequest()">
 
 <div id="navbar">
 </div>
@@ -21,29 +21,26 @@
 
 <div class = "wrapper">
     <div class = "idInput">
-        <input type = "text" placeholder="CustomerId" id = "CustomerId"
+        <input type = "text" placeholder="SchoolingId" id = "SchoolingId"
                onfocus = "this.placeholder = ''"
-               onblur="this.placeholder = 'CustomerId'">
+               onblur="this.placeholder = 'SchoolingId'">
         <br/>
-        <button type="button" class="button" onclick="deleteCustomer(CustomerId)">delete Customer</button>
+        <button type="button" class="button" onclick="deleteSchooling(SchoolingId)">delete Schooling</button>
     </div>
-
-    <br><br>
+<br><br>
     <div class = "idInput">
-        <input type = "text" placeholder="Customer Surname" id = "CustomerSurname"
+        <input type = "text" placeholder="Schooling Name" id = "SchoolingName"
                onfocus = "this.placeholder = ''"
-               onblur="this.placeholder = 'Customer Surname'">
+               onblur="this.placeholder = 'Schooling Name'">
         <br/>
-        <button type="button" class="button" onclick="findCustomerBySurname(CustomerSurname)">find Customer</button>
+        <button type="button" class="button" onclick="findSchoolingByName(SchoolingName)">find Schooling</button>
     </div>
-
-    <br><br>
 
 </div>
 
 <br><br>
 
-<div class = "table" id = "CustomersTable">
+<div class = "table" id = "SchoolingsTable">
 
 
 </div>

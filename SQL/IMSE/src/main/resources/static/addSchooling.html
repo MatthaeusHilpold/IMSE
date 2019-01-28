@@ -33,6 +33,9 @@ $.get("navbar.html", function(data){
                onfocus = "this.placeholder = ''"
                onblur="this.placeholder = 'CompanyUIDNUmber'">
         <button type="button" class="button" onclick="saveSchooling(Schooling_Name,Termin,CompanyUIDNumber)">save Schooling</button>
+
+        <br><br>  <br> <button type="button" class="button" onclick="sendGetRequest('http://localhost:8080/schooling/fillWithData')">
+        Fill Schooling table with data</button>
         <h1 id="serverResponse">  </h1>
 
     </form>

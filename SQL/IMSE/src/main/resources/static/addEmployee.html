@@ -47,8 +47,13 @@ $.get("navbar.html", function(data){
 
         <button type="button" class="button" onclick="saveEmployee(employeename,surname,salary,SupervisorId,companyUID,telephone)"
                 value = "SaveEmployee">save Employee</button>
+
+          <br> <button type="button" class="button" onclick="sendGetRequest('http://localhost:8080/employee/fillWithData')">
+        Fill Employee table with data</button>
+
         <h1 id="serverResponse">  </h1>
         <p id="demo"></p>
+
     </form>
 </div>
 

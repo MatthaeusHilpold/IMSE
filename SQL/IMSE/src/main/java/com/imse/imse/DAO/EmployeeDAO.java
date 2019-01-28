@@ -25,6 +25,16 @@ public class EmployeeDAO implements IEmployeeDAO {
     }
 
     @Override
+    public String findBySurnmame(String surname) throws SQLException {
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM Employee WHERE EmployeeSurname = ");
+        query.append("'");
+        query.append(surname);
+        query.append("'");
+        return DbConnection.executeSelectQuery(query.toString(),"Employee");
+    }
+
+    @Override
     public String getAllEmployees() throws SQLException {
         StringBuilder query = new StringBuilder();
         query.append("SELECT * FROM Employee");

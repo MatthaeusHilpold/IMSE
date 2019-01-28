@@ -2,6 +2,7 @@ package com.imse.imse.controllers;
 
 
 
+import com.imse.imse.DataInsert.DataInsert;
 import com.imse.imse.EmployeeUpdatePayload;
 import com.imse.imse.config.DbConnection;
 import com.imse.imse.domain.Customer;
@@ -115,5 +116,23 @@ public class EmployeeController {
         else
             return new ResponseEntity<ArrayList<Employee>>(list, HttpStatus.NO_CONTENT);
 
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "fillWithData" )
+    public ResponseEntity<String> fillTableWithData() {
+        DataInsert.fillEmployeeTable();
+        return new ResponseEntity<String>(HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "getEmployee/{surnmame}" )
+    public ResponseEntity<String> getEmployeeBySurname(@PathVariable(value = "surnmame") String surname){
+        try {
+            String result = employeeService.findBySurname(surname);
+            return new ResponseEntity<String>(result,HttpStatus.OK);
+        } catch (SQLException exc) {
+            return new ResponseEntity<String>(exc.getMessage(),HttpStatus.CONFLICT);
+        }
     }
 }

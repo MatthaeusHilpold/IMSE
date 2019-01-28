@@ -20,8 +20,8 @@ public class SchoolingService implements ISchoolingService {
     };
 
     @Override
-    public Schooling findByName(String Name) {
-        return schoolingDAO.findByName(Name);
+    public String findByName(String schoolingName) throws SQLException{
+        return schoolingDAO.findByName(schoolingName);
     }
 
     @Override
@@ -33,5 +33,10 @@ public class SchoolingService implements ISchoolingService {
     public void deleteSchooling(int id) throws SQLException
     {
         schoolingDAO.deleteSchooling(id);
+    }
+
+    @Override
+    public String getAllSchoolings() throws SQLException {
+        return schoolingDAO.getAllSchoolings();
     }
 }

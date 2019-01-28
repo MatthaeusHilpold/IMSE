@@ -2,6 +2,7 @@ package com.imse.imse.controllers;
 
 
 
+import com.imse.imse.DataInsert.DataInsert;
 import com.imse.imse.config.DbConnection;
 import com.imse.imse.domain.Customer;
 import com.imse.imse.domain.Spouse;
@@ -104,6 +105,25 @@ public class CustomerController {
         else
             return new ResponseEntity<ArrayList<Spouse>>(list, HttpStatus.NO_CONTENT);
 
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "getCustomer/{surnmame}" )
+    public ResponseEntity<String> getCustomerBySurname(@PathVariable(value = "surnmame") String surname){
+        try {
+            String result = customerService.findBySurname(surname);
+            return new ResponseEntity<String>(result,HttpStatus.OK);
+        } catch (SQLException exc) {
+            return new ResponseEntity<String>(exc.getMessage(),HttpStatus.CONFLICT);
+        }
+    }
+
+
+    @CrossOrigin
+    @GetMapping(value = "fillWithData" )
+    public ResponseEntity<String> fillTableWithData() {
+        DataInsert.fillCustomerTable();
+        return new ResponseEntity<String>(HttpStatus.OK);
     }
 
 

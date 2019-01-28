@@ -11,6 +11,8 @@ public interface IEmployeeDAO {
 
     String findById(int id) throws SQLException;
 
+    String findBySurnmame(String surname) throws SQLException;
+
     String getAllEmployees() throws SQLException;
 
     void saveEmployee(Employee employee) throws SQLException;

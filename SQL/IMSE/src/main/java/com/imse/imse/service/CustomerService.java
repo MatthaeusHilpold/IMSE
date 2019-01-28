@@ -19,7 +19,7 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public Customer findBySurname(String surname) {
+    public String findBySurname(String surname) throws SQLException{
         return customerDAO.findBySurname(surname);
     }
 
@@ -36,5 +36,10 @@ public class CustomerService implements ICustomerService {
     @Override
     public void deleteCustomerById(int id) throws SQLException{
         customerDAO.deleteCustomerById(id);
+    }
+
+    @Override
+    public String getAllCustomers() throws SQLException {
+        return customerDAO.getAllCustomers();
     }
 }

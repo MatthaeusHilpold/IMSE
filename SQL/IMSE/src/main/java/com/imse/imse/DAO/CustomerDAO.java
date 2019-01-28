@@ -26,8 +26,13 @@ public class CustomerDAO implements ICustomerDAO {
     }
 
     @Override
-    public Customer findBySurname(String surname) {
-        return null;
+    public String findBySurname(String surname) throws SQLException{
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM Customer WHERE CustomerSurname = ");
+        query.append("'");
+        query.append(surname);
+        query.append("'");
+        return DbConnection.executeSelectQuery(query.toString(),"Customer");
     }
 
     @Override
@@ -86,6 +91,13 @@ public class CustomerDAO implements ICustomerDAO {
         query.append(id);
 
         DbConnection.executeQuery(query.toString());
+    }
+
+    @Override
+    public String getAllCustomers() throws SQLException {
+        StringBuilder query = new StringBuilder();
+        query.append("SELECT * FROM Customer");
+        return DbConnection.executeSelectQuery(query.toString(), "Customer");
     }
 
 }

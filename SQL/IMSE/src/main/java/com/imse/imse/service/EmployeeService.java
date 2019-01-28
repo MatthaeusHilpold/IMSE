@@ -37,4 +37,9 @@ public class EmployeeService implements IEmployeeService {
     public void deleteEmployeeById(int id) throws SQLException{
        employeeDAO.deleteEmployeeById(id);
     }
+
+    @Override
+    public String findBySurname(String surname) throws SQLException {
+        return employeeDAO.findBySurnmame(surname);
+    }
 }

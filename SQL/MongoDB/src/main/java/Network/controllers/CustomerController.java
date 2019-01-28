@@ -83,11 +83,10 @@ public class CustomerController {
     @CrossOrigin
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<String> deleteCustomer(@PathVariable(value = "id") int id){
-
         try {
             init=new Database_Init(mongo,name);
             db=init.getDb();
-            Bson filter = Filters.eq("_id", id);
+            Bson filter = Filters.eq("customerId", id);
             DeleteResult deleteResult = db.getCollection("Customer").deleteOne(filter);
             int count = (int) deleteResult.getDeletedCount();
             if(count==1)

@@ -95,4 +95,27 @@ public class SchoolingController {
 
     }
 
+    @CrossOrigin
+    @GetMapping(value = "getSchooling/{id}")
+    public ResponseEntity<String> getAllSchoolings(@PathVariable(value = "id") int id){
+        String response=null;
+        ArrayList<JSONObject> entities = new ArrayList<JSONObject>();
+        try {
+            init=new Database_Init(mongo,name);
+            Integer sid = new Integer(id);
+            FindIterable<Document> docs=init.findById((Object)sid, "Customers", "schooling_ID");
+
+            response = HTMLTableMapper.mapSchoolingToHtmlTable(docs);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(!response.isEmpty())
+            return new ResponseEntity<String>(response, HttpStatus.OK);
+        else
+            return new ResponseEntity<String>(response, HttpStatus.NO_CONTENT);
+
+    }
+
 }

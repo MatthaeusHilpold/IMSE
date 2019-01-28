@@ -70,7 +70,7 @@ public class EmployeeController {
         init=new Database_Init(mongo,name);
         db=init.getDb();
         //Bson filter = Filters.eq("schooling_ID", id);
-        MongoCollection<Document> coll = db.getCollection("Schoolings");
+        MongoCollection<Document> coll = db.getCollection("Employees");
         coll.deleteOne(new Document("employeeId", id));
         return new ResponseEntity<String>(HttpStatus.OK);
     }
@@ -84,6 +84,28 @@ public class EmployeeController {
         try {
             init=new Database_Init(mongo,name);
             FindIterable<Document> docs=init.getAll("Employees");
+
+            response = HTMLTableMapper.mapEmployeeToHTMLTable(docs);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(!response.isEmpty())
+            return new ResponseEntity<String>(response, HttpStatus.OK);
+        else
+            return new ResponseEntity<String>(response, HttpStatus.NO_CONTENT);
+
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "getEmployee/{surname}")
+    public ResponseEntity<String> getAllEmployees(@PathVariable(value = "surname") String surname){
+        String response=null;
+        ArrayList<JSONObject> entities = new ArrayList<JSONObject>();
+        try {
+            init=new Database_Init(mongo,name);
+            FindIterable<Document> docs=init.findById((Object)surname, "Employees", "surname");
 
             response = HTMLTableMapper.mapEmployeeToHTMLTable(docs);
 

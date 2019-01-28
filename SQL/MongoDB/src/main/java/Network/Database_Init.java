@@ -47,10 +47,10 @@ public class Database_Init {
         return docs;
     }
 
-    public FindIterable<Document> findById(String Surname,String name)
+    public FindIterable<Document> findById(Object object,String name, String identifyier)
     {
         MongoCollection<Document> col=db.getCollection(name);
-        FindIterable<Document> docs=col.find(new BasicDBObject("surname",Surname));
+        FindIterable<Document> docs=col.find(new BasicDBObject(identifyier,object));
         return docs;
     }
 

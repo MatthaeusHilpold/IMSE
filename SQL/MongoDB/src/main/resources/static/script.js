@@ -33,35 +33,35 @@ function deletestuff(url)
 function saveSchooling(Schooling_Name,Termin,CompanyUIDNumber)
 {
     var commentJson = {"Schooling_Name": Schooling_Name.value, "Termin": Termin.value,"CompanyUIDNumber": CompanyUIDNumber.value};
-    add("http://localhost:8080/schooling/add",commentJson);
+    add("http://localhost:5050/schooling/add",commentJson);
 }
 
 function saveCustomer(customerName, surname, supervisorId)
 {
     var commentJson = {"CustomerName": customerName.value, "CustomerSurname": surname.value,"employeeId": supervisorId.value};
-    add("http://localhost:8080/customer/add",commentJson);
+    add("http://localhost:5050/customer/add",commentJson);
 }
 
 function saveEmployee(employeename, surname, salary ,supervisorId, companyUID, telephone)
 {
     var commentJson = {"EmployeeName": employeename.value, "EmployeeSurname": surname.value,"baseSalary": salary.value,"telephoneNumber":telephone.value,
                         "supervisorId":supervisorId.value,"CompanyUIDNumber":companyUID.value};
-    add("http://localhost:8080/employee/add",commentJson);
+    add("http://localhost:5050/employee/add",commentJson);
 }
 
 function deleteCustomer(customerId) {
-    deletestuff("http://localhost:8080/customer/delete/" + customerId.value);
-    document.getElementById("CustomersTable").innerHTML = sendGetRequest("http://localhost:8080/customer/getAllCustomers");
+    deletestuff("http://localhost:5050/customer/delete/" + customerId.value);
+    document.getElementById("CustomersTable").innerHTML = sendGetRequest("http://localhost:5050/customer/getAllCustomers");
 }
 
 function deleteEmployee(employeeId) {
-    deletestuff("http://localhost:8080/employee/delete/" + employeeId.value);
-    document.getElementById("EmployeeTable").innerHTML = sendGetRequest("http://localhost:8080/employee/getAllEmployees");
+    deletestuff("http://localhost:5050/employee/delete/" + employeeId.value);
+    document.getElementById("EmployeeTable").innerHTML = sendGetRequest("http://localhost:5050/employee/getAllEmployees");
 }
 
 function deleteSchooling(scholingId) {
-    deletestuff("http://localhost:8080/schooling/delete/" + scholingId.value)
-    document.getElementById("SchoolingsTable").innerHTML = sendGetRequest("http://localhost:8080/schooling/getAllSchoolings");
+    deletestuff("http://localhost:5050/schooling/delete/" + scholingId.value)
+    document.getElementById("SchoolingsTable").innerHTML = sendGetRequest("http://localhost:5050/schooling/getAllSchoolings");
 }
 
 
@@ -80,27 +80,27 @@ function sendGetRequest(url) {
 }
 
 function getAllEmployeesRequest(){
-    document.getElementById("EmployeeTable").innerHTML = sendGetRequest("http://localhost:8080/employee/getAllEmployees");
+    document.getElementById("EmployeeTable").innerHTML = sendGetRequest("http://localhost:5050/employee/getAllEmployees");
 }
 
 function getAllCustomersRequest(){
-    document.getElementById("CustomersTable").innerHTML = sendGetRequest("http://localhost:8080/customer/getAllCustomers");
+    document.getElementById("CustomersTable").innerHTML = sendGetRequest("http://localhost:5050/customer/getAllCustomers");
 }
 
 function getAllSchoolingsRequest(){
-    document.getElementById("SchoolingsTable").innerHTML = sendGetRequest("http://localhost:8080/schooling/getAllSchoolings");
+    document.getElementById("SchoolingsTable").innerHTML = sendGetRequest("http://localhost:5050/schooling/getAllSchoolings");
 }
 
 function findEmployeeBySurname(surname){
-    document.getElementById("EmployeeTable").innerHTML = sendGetRequest("http://localhost:8080/employee/getEmployee/" + surname.value)
+    document.getElementById("EmployeeTable").innerHTML = sendGetRequest("http://localhost:5050/employee/getEmployee/" + surname.value)
 }
 
 function findCustomerBySurname(surname){
-    document.getElementById("CustomersTable").innerHTML = sendGetRequest("http://localhost:8080/customer/getCustomer/" + surname.value)
+    document.getElementById("CustomersTable").innerHTML = sendGetRequest("http://localhost:5050/customer/getCustomer/" + surname.value)
 }
 
 function findSchoolingByName(name){
-    document.getElementById("SchoolingsTable").innerHTML = sendGetRequest("http://localhost:8080/schooling/getSchooling/" + name.value)
+    document.getElementById("SchoolingsTable").innerHTML = sendGetRequest("http://localhost:5050/schooling/getSchooling/" + name.value)
 }
 
 

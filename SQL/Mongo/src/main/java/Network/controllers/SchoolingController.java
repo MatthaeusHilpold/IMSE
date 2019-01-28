@@ -23,12 +23,11 @@ public class SchoolingController {
     MongoClient mongo= MongoClients.create("mongodb://localhost:27017");
     Database_Init init;
     MongoDatabase db;
-    String name = "InsuranceCompanyMigrated";
     private static AtomicInteger id = new AtomicInteger(0);
 
     @CrossOrigin
     @PostMapping(value = "/add")
-    public ResponseEntity<String> newSchooling(@RequestBody String jsonString) {
+    public ResponseEntity<String> newSchooling(@RequestBody String jsonString, @RequestParam String name) {
         try {
 
             JSONObject json = new JSONObject(jsonString);
@@ -49,7 +48,7 @@ public class SchoolingController {
 
     @CrossOrigin
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<String> deleteEmployee(@PathVariable(value = "id") int id){
+    public ResponseEntity<String> deleteEmployee(@PathVariable(value = "id") int id,@RequestParam String name){
 
         try {
             init=new Database_Init(mongo,name);

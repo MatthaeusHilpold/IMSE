@@ -23,6 +23,9 @@ public class Main {
         MongoClient mongo= MongoClients.create("mongodb://localhost:27017");
         Database_Init db_init = new Database_Init(mongo, "InsuranceCompanyMigrated");
         MongoDatabase db = db_init.getDb();
+        Migrator.migrateCustomers(db);
+        Migrator.migrateEmployees(db);
+        Migrator.migrateSchoolings(db);
 
         SpringApplication app = new SpringApplication(Main.class);
         app.setBannerMode(Banner.Mode.OFF);

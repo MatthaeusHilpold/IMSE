@@ -27,12 +27,11 @@ public class CustomerController {
     MongoClient mongo= MongoClients.create("mongodb://localhost:27017");
     Database_Init init;
     MongoDatabase db;
-    String name = "InsuranceCompanyMigrated";
     private static AtomicInteger id = new AtomicInteger(0);
 
     @CrossOrigin
     @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity<String> ProceedRegister(@RequestBody String jsonString) {
+    public ResponseEntity<String> ProceedRegister(@RequestBody String jsonString, @RequestParam String name) {
         System.out.println("Adding customer with json: \n" + jsonString);
         try {
             JSONObject json = new JSONObject(jsonString);
@@ -74,7 +73,7 @@ public class CustomerController {
 
     @CrossOrigin
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<String> deleteCustomer(@PathVariable(value = "id") int id){
+    public ResponseEntity<String> deleteCustomer(@PathVariable(value = "id") int id,@RequestParam String name){
 
         try {
             init=new Database_Init(mongo,name);
@@ -93,7 +92,7 @@ public class CustomerController {
 
     @CrossOrigin
     @RequestMapping(value = "/getAllCustomers", method = RequestMethod.GET)
-    public ResponseEntity<ArrayList<Customer>> getAllCustomers(){
+    public ResponseEntity<ArrayList<Customer>> getAllCustomers(@RequestParam String name){
 
         ArrayList<Customer> list = new ArrayList<Customer>();
         List<JSONObject> entities = new ArrayList<JSONObject>();
@@ -104,8 +103,8 @@ public class CustomerController {
              for (Document doc  : docs) {
                 JSONObject entity = new JSONObject();
                 entity.put("CustomerId", doc.get("ID"));
-                entity.put("CustomerName", doc.getString("customerName"));
-                entity.put("CustomerSurname", doc.getString("customerSurname"));
+                entity.put("CustomerName", doc.getString("name"));
+                entity.put("CustomerSurname", doc.getString("surname"));
                 entity.put("CustomerSince", doc.getString("CustomerSince"));
                 entity.put("EmployeeId", doc.getInteger("EmployeeId"));
                 entities.add(entity);

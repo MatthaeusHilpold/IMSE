@@ -23,14 +23,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class EmployeeController {
 
     MongoClient mongo= MongoClients.create("mongodb://localhost:27017");
-    String name = "InsuranceCompanyMigrated";
     Database_Init init;
     MongoDatabase db;
     private static AtomicInteger id = new AtomicInteger(0);
 
     @CrossOrigin
     @PostMapping(value = "/add")
-    public ResponseEntity<String> ProceedRegister(@RequestBody String jsonString) {
+    public ResponseEntity<String> ProceedRegister(@RequestBody String jsonString,@RequestParam String name) {
         try {
 
             JSONObject json = new JSONObject(jsonString);
@@ -54,7 +53,7 @@ public class EmployeeController {
 
     @CrossOrigin
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<String> deleteEmployee(@PathVariable(value = "id") int id){
+    public ResponseEntity<String> deleteEmployee(@PathVariable(value = "id") int id,@RequestParam String name){
 
         try {
             init=new Database_Init(mongo,name);
@@ -74,33 +73,32 @@ public class EmployeeController {
 
     @CrossOrigin
     @RequestMapping(value = "/getAllEmployees", method = RequestMethod.GET)
-    public ResponseEntity<ArrayList<JSONObject>> getAllEmployees(){
+    public ResponseEntity<ArrayList<Employee>> getAllEmployees(@RequestParam String name){
 
-        ArrayList<JSONObject> entities = new ArrayList<JSONObject>();
+        ArrayList<Employee> list = new ArrayList<Employee>();
+        List<JSONObject> entities = new ArrayList<JSONObject>();
         try {
             init=new Database_Init(mongo,name);
-            FindIterable<Document> docs=init.getAll("Employees");
+            FindIterable<Document> docs=init.getAll("Customers");
 
             for (Document doc  : docs) {
                 JSONObject entity = new JSONObject();
-                entity.put("EmployeeId", doc.getInteger("ID"));
-                entity.put("telephoneNumber",doc.getString("telephoneNumber"));
-                entity.put("name", doc.getString("name"));
-                entity.put("surname",doc.getString("surname"));
-                entity.put("CompanyUIDNUmber",doc.getString("CompanyUIDNumber"));
-                entity.put("baseSalary", doc.getInteger("baseSalary"));
-                entity.put("supervisorId",doc.getInteger("supervisorId"));
+                entity.put("EmployeeId", doc.get("ID"));
+                entity.put("telephoneNumber",doc.get("telephoneNumber"));
+                entity.put("EmployeeName", doc.get("EmployeeName"));
+                entity.put("EmployeeSurname",doc.get("EmployeeSurname"));
+                entity.put("CompanyUIDNUmber",doc.get("CompanyUIDNumber"));
+                entity.put("baseSalary", doc.get("baseSalary"));
+                entity.put("supervisorId",doc.get("supervisorId"));
                 entities.add(entity);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        if(entities.size()!=0)
-            return new ResponseEntity<ArrayList<JSONObject>>(entities, HttpStatus.OK);
+        if(list.size()!=0)
+            return new ResponseEntity<ArrayList<Employee>>(list, HttpStatus.OK);
         else
-            return new ResponseEntity<ArrayList<JSONObject>>(entities, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<ArrayList<Employee>>(list, HttpStatus.NO_CONTENT);
 
     }
 

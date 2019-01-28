@@ -3,6 +3,8 @@ package com.imse.imse.controllers;
 
 
 import com.imse.imse.EmployeeUpdatePayload;
+import com.imse.imse.config.DbConnection;
+import com.imse.imse.domain.Customer;
 import com.imse.imse.domain.Employee;
 import com.imse.imse.service.EmployeeService;
 import org.json.JSONException;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 
 @CrossOrigin
@@ -95,5 +98,22 @@ public class EmployeeController {
         } catch (SQLException exc) {
             return new ResponseEntity<String>(exc.getMessage(),HttpStatus.CONFLICT);
         }
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/getAllEmployeesAsObject", method = RequestMethod.GET)
+    public ResponseEntity<ArrayList<Employee>> getAllEmployeesAsObject(){
+
+        ArrayList<Employee> list = new ArrayList<Employee>();
+        try {
+            list = DbConnection.getAllEmployees();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(list.size()!=0)
+            return new ResponseEntity<ArrayList<Employee>>(list, HttpStatus.OK);
+        else
+            return new ResponseEntity<ArrayList<Employee>>(list, HttpStatus.NO_CONTENT);
+
     }
 }

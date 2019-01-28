@@ -24,6 +24,8 @@ public class Employee {
 
     private String companyUIDNumber;
 
+    public Employee() {}
+
     public Employee(String telephoneNumber, String name, String surname, int baseSalary, int supervisorId, String uidNumber ) {
         this.telephoneNumber = telephoneNumber;
         this.name = name;
@@ -88,5 +90,9 @@ public class Employee {
 
     public void setSupervisorId(int supervisorId) {
         SupervisorId = supervisorId;
+    }
+
+    public void setCompanyUIDNumber(String companyUIDNumber) {
+        this.companyUIDNumber = companyUIDNumber;
     }
 }

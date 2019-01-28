@@ -6,6 +6,10 @@ public class Schooling {
     private String Termin;
     private int CompanyUIDNUmber;
 
+
+
+    public Schooling() {}
+
     public Schooling(String Schooling,String Termin,int CompanyUIDNUmber)
     {
         this.Schooling_Name=Schooling;
@@ -39,5 +43,13 @@ public class Schooling {
 
     public void setTermin(String termin) {
         Termin = termin;
+    }
+
+    public void setSchooling_ID(int schooling_ID) {
+        Schooling_ID = schooling_ID;
+    }
+
+    public void setSchooling_Name(String schooling_Name) {
+        Schooling_Name = schooling_Name;
     }
 }

@@ -2,6 +2,8 @@ package com.imse.imse.config;
 import com.imse.imse.DAO.EmployeeDAO;
 import com.imse.imse.HTMLTableMapper;
 import com.imse.imse.domain.Customer;
+import com.imse.imse.domain.Employee;
+import com.imse.imse.domain.Schooling;
 import com.imse.imse.domain.Spouse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -114,6 +116,42 @@ public final class DbConnection {
             newspouse.setHasChildren(rs.getByte("HaveChildren"));
             newspouse.setSpouseSince(rs.getDate("SpouseSince").toLocalDate());
             rsarray.add(newspouse);
+        }
+
+        return rsarray;
+    }
+
+    public static ArrayList<Employee> getAllEmployees() throws SQLException {
+        ResultSet rs = executeSelectAllQuery("Select * from Employee");
+        ArrayList<Employee> rsarray = new ArrayList<Employee>();
+        while (rs.next()) {
+            Employee newemployee = new Employee();
+            newemployee.setName(rs.getString("EmployeeName"));
+            newemployee.setSurname(rs.getString("EmployeeSurname"));
+            //newemployee.setEmployeeSince(rs.getDate("EmployeeSince").toLocalDate());
+            newemployee.setTelephoneNumber(rs.getString("TelephoneNumber"));
+            newemployee.setBaseSalary(rs.getInt("BaseSalary"));
+            newemployee.setSupervisorId(rs.getInt("SupervisorId"));
+            newemployee.setEmployeeId(rs.getInt("EmployeeId"));
+            newemployee.setCompanyUIDNumber(rs.getString("CompanyUIDNumber"));
+
+            rsarray.add(newemployee);
+        }
+
+        return rsarray;
+    }
+
+    public static ArrayList<Schooling> getAllSchoolings() throws SQLException {
+        ResultSet rs = executeSelectAllQuery("Select * from Schooling");
+        ArrayList<Schooling> rsarray = new ArrayList<Schooling>();
+        while (rs.next()) {
+            Schooling newschooling = new Schooling();
+            newschooling.setSchooling_Name(rs.getString("SchoolingName"));
+            newschooling.setTermin(rs.getString("Termin"));
+            newschooling.setSchooling_ID(rs.getInt("SchoolingId"));
+            newschooling.setCompanyUIDNUmber(rs.getInt("CompanyUIDNumber"));
+
+            rsarray.add(newschooling);
         }
 
         return rsarray;

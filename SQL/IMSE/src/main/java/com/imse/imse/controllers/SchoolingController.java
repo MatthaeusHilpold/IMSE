@@ -1,5 +1,6 @@
 package com.imse.imse.controllers;
 
+import com.imse.imse.config.DbConnection;
 import com.imse.imse.domain.Employee;
 import com.imse.imse.domain.Schooling;
 import com.imse.imse.service.SchoolingService;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 @CrossOrigin
 @RestController
@@ -44,5 +46,22 @@ public class SchoolingController {
         } catch (SQLException exc) {
             return new ResponseEntity<String>(exc.getMessage(),HttpStatus.CONFLICT);
         }
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/getAllSchoolingsAsObject", method = RequestMethod.GET)
+    public ResponseEntity<ArrayList<Schooling>> getAllSchoolingsAsObject(){
+
+        ArrayList<Schooling> list = new ArrayList<Schooling>();
+        try {
+            list = DbConnection.getAllSchoolings();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(list.size()!=0)
+            return new ResponseEntity<ArrayList<Schooling>>(list, HttpStatus.OK);
+        else
+            return new ResponseEntity<ArrayList<Schooling>>(list, HttpStatus.NO_CONTENT);
+
     }
 }

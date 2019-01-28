@@ -13,6 +13,16 @@ public class Schooling {
         this.CompanyUIDNUmber=CompanyUIDNUmber;
     }
 
+    public Schooling(int Schooling_ID, String Schooling,String Termin,int CompanyUIDNUmber)
+    {
+        this.Schooling_ID = Schooling_ID;
+        this.Schooling_Name=Schooling;
+        this.Termin=Termin;
+        this.CompanyUIDNUmber=CompanyUIDNUmber;
+    }
+
+    public Schooling() { }
+
     public int getCompanyUIDNUmber() {
         return CompanyUIDNUmber;
     }

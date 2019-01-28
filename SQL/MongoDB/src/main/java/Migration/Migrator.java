@@ -3,9 +3,7 @@ package Migration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import dataClasses.Customer;
-import dataClasses.SQLCustomer;
-import dataClasses.Spouse;
+import dataClasses.*;
 import jdk.nashorn.internal.parser.JSONParser;
 import org.bson.Document;
 import org.json.JSONArray;
@@ -33,6 +31,36 @@ public class Migrator {
             i++;
         }
         return cuslist;
+    }
+
+    public static ArrayList<Employee> getEmployeesFromSQL() {
+        final String employeeurl = "http://localhost:8080/employee/getAllEmployeesAsObject";
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Employee[]> empresult = restTemplate.getForEntity(employeeurl, Employee[].class);
+        ArrayList<Employee> emplist = new ArrayList<Employee>();
+        int emplen = empresult.getBody().length;
+        int i = 0;
+        while(i < emplen) {
+            emplist.add(empresult.getBody()[i]);
+            i++;
+        }
+        return emplist;
+    }
+
+    public static ArrayList<Schooling> getSchoolingsFromSQL() {
+        final String employeeurl = "http://localhost:8080/schooling/getAllSchoolingsAsObject";
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Schooling[]> empresult = restTemplate.getForEntity(employeeurl, Schooling[].class);
+        ArrayList<Schooling> emplist = new ArrayList<Schooling>();
+        int emplen = empresult.getBody().length;
+        int i = 0;
+        while(i < emplen) {
+            emplist.add(empresult.getBody()[i]);
+            i++;
+        }
+        return emplist;
     }
 
     public static ArrayList<Spouse> getSpousesFromSQL() {
@@ -67,6 +95,30 @@ public class Migrator {
 
             }
             coll.insertOne(customer);
+        }
+
+    }
+
+    public static void migrateEmployees(MongoDatabase database) {
+        ArrayList<Employee> employeelist = Migrator.getEmployeesFromSQL();
+        MongoCollection<Document> coll = database.getCollection("Employees");
+        for(Employee employee : employeelist) {
+            ObjectMapper oMapper = new ObjectMapper();
+            Map<String, Object> map = oMapper.convertValue(employee, Map.class);
+            Document employeedoc = new Document(map);
+            coll.insertOne(employeedoc);
+        }
+
+    }
+
+    public static void migrateSchoolings(MongoDatabase database) {
+        ArrayList<Schooling> schoolinglist = Migrator.getSchoolingsFromSQL();
+        MongoCollection<Document> coll = database.getCollection("Schoolings");
+        for(Schooling schooling : schoolinglist) {
+            ObjectMapper oMapper = new ObjectMapper();
+            Map<String, Object> map = oMapper.convertValue(schooling, Map.class);
+            Document schoolingdoc = new Document(map);
+            coll.insertOne(schoolingdoc);
         }
 
     }

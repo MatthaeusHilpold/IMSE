@@ -79,15 +79,6 @@ public class CustomerController {
        // List<JSONObject> entities = new ArrayList<JSONObject>();
         try {
             list = DbConnection.getAllCustomers();
-           /* for (Customer c : list) {
-                JSONObject entity = new JSONObject();
-                entity.put("CustomerId", c.getCustomerId());
-                entity.put("CustomerName", c.getCustomerName());
-                entity.put("CustomerSurname", c.getCustomerSurname());
-                entity.put("CustomerSince", c.getCustomerSince());
-                entity.put("EmployeeId", c.getEmployeeId());
-                entities.add(entity);
-            } */
         } catch (SQLException e) {
             e.printStackTrace();
         }

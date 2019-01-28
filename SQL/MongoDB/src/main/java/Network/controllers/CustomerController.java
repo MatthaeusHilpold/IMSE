@@ -29,7 +29,7 @@ public class CustomerController {
     Database_Init init;
     MongoDatabase db;
     String name = "InsuranceCompanyMigrated";
-    private static AtomicInteger id = new AtomicInteger(0);
+    private static AtomicInteger id = new AtomicInteger(50);
 
     @CrossOrigin
     @RequestMapping(value = "/add", method = RequestMethod.POST, consumes = "application/json")
@@ -48,7 +48,7 @@ public class CustomerController {
                         .append("monthValue", newcustomer.getCustomerSince().getMonthValue())
                         .append("dayOfMonth", newcustomer.getCustomerSince().getDayOfMonth());
                 Document person = new Document("_id", id.incrementAndGet())
-                        .append("customerId", null)
+                        .append("customerId", id.get())
                         .append("customerSince", date)
                         .append("customerName", newcustomer.getCustomerName())
                         .append("customerSurname", newcustomer.getCustomerSurname())
@@ -83,19 +83,12 @@ public class CustomerController {
     @CrossOrigin
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<String> deleteCustomer(@PathVariable(value = "id") int id){
-        try {
-            init=new Database_Init(mongo,name);
-            db=init.getDb();
-            Bson filter = Filters.eq("customerId", id);
-            DeleteResult deleteResult = db.getCollection("Customer").deleteOne(filter);
-            int count = (int) deleteResult.getDeletedCount();
-            if(count==1)
-                return new ResponseEntity<String>(HttpStatus.OK);
-            else
-                return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
-        } catch (Exception exc) {
-            return new ResponseEntity<String>(exc.getMessage(),HttpStatus.CONFLICT);
-        }
+        init=new Database_Init(mongo,name);
+        db=init.getDb();
+        //Bson filter = Filters.eq("schooling_ID", id);
+        MongoCollection<Document> coll = db.getCollection("Schoolings");
+        coll.deleteOne(new Document("customerId", id));
+        return new ResponseEntity<String>(HttpStatus.OK);
     }
 
     @CrossOrigin

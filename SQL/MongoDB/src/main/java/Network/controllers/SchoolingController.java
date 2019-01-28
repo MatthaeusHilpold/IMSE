@@ -2,9 +2,11 @@ package Network.controllers;
 
 import Network.Database_Init;
 import Network.HTMLTableMapper;
+import com.mongodb.BasicDBObject;
 import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.DeleteResult;
+import dataClasses.Schooling;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.json.JSONObject;
@@ -23,7 +25,7 @@ public class SchoolingController {
     Database_Init init;
     MongoDatabase db;
     String name = "InsuranceCompanyMigrated";
-    private static AtomicInteger id = new AtomicInteger(0);
+    private static AtomicInteger id = new AtomicInteger(50);
 
     @CrossOrigin
     @PostMapping(value = "/add")
@@ -33,11 +35,13 @@ public class SchoolingController {
             JSONObject json = new JSONObject(jsonString);
             init=new Database_Init(mongo,name);
             db=init.getDb();
-            MongoCollection<Document> coll = db.getCollection("Schooling");
+            Schooling newschooling = new Schooling(json.get("Schooling_Name").toString(), json.get("Termin").toString(), json.getInt("CompanyUIDNumber"));
+            MongoCollection<Document> coll = db.getCollection("Schoolings");
             Document schooling = new Document("_id", id.incrementAndGet())
-                    .append("SchoolingName", json.get("SchoolingName").toString())
-                    .append("Termin",json.get("Termin").toString())
-                    .append("CompanyUIDNumber",Integer.parseInt(json.get("CompanyUIDNumber").toString()));
+                    .append("schooling", newschooling.getSchooling())
+                    .append("schooling_ID", id)
+                    .append("termin", newschooling.getTermin())
+                    .append("companyUIDNUmber", newschooling.getCompanyUIDNUmber());
             coll.insertOne(schooling);
             return new ResponseEntity<String>(HttpStatus.CREATED);
         } catch (Exception exc) {
@@ -48,21 +52,25 @@ public class SchoolingController {
 
     @CrossOrigin
     @DeleteMapping(value = "/delete/{id}")
-    public ResponseEntity<String> deleteEmployee(@PathVariable(value = "id") int id){
-
-        try {
+    public ResponseEntity<String> deleteSchooling(@PathVariable(value = "id") int id){
+        //try {
             init=new Database_Init(mongo,name);
             db=init.getDb();
-            Bson filter = Filters.eq("_id", id);
-            DeleteResult deleteResult = db.getCollection("Schooling").deleteOne(filter);
-            int count = (int) deleteResult.getDeletedCount();
+            //Bson filter = Filters.eq("schooling_ID", id);
+            BasicDBObject document = new BasicDBObject();
+            document.put("schooling_ID", id);
+            MongoCollection<Document> coll = db.getCollection("Schoolings");
+            coll.deleteOne(new Document("schooling_ID", id));
+            return new ResponseEntity<String>(HttpStatus.OK);
+          /* int count = (int) deleteResult.getDeletedCount();
             if(count==1)
                 return new ResponseEntity<String>(HttpStatus.OK);
             else
                 return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
         } catch (Exception exc) {
             return new ResponseEntity<String>(exc.getMessage(),HttpStatus.CONFLICT);
-        }
+        }*/
+
     }
 
     @CrossOrigin

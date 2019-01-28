@@ -2,6 +2,7 @@ package Network.controllers;
 
 import Network.Database_Init;
 import Network.HTMLTableMapper;
+import com.mongodb.BasicDBObject;
 import com.mongodb.client.*;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.DeleteResult;
@@ -27,24 +28,33 @@ public class EmployeeController {
     String name = "InsuranceCompanyMigrated";
     Database_Init init;
     MongoDatabase db;
-    private static AtomicInteger id = new AtomicInteger(0);
+    private static AtomicInteger id = new AtomicInteger(50);
 
     @CrossOrigin
     @PostMapping(value = "/add")
     public ResponseEntity<String> ProceedRegister(@RequestBody String jsonString) {
+
         try {
 
             JSONObject json = new JSONObject(jsonString);
             init=new Database_Init(mongo,name);
             db=init.getDb();
-            MongoCollection<Document> coll = db.getCollection("Employee");
+            Employee newemployee = new Employee(json.getString("telephoneNumber"), json.getString("EmployeeName"), json.getString("EmployeeSurname"), json.getInt("baseSalary"), json.getInt("supervisorId"), json.getString("CompanyUIDNumber"));
+            MongoCollection<Document> coll = db.getCollection("Employees");
+
+            Document date = new Document()
+                    .append("year", newemployee.getEmployeeSince().getYear())
+                    .append("monthValue", newemployee.getEmployeeSince().getMonthValue())
+                    .append("dayOfMonth", newemployee.getEmployeeSince().getDayOfMonth());
             Document person = new Document("_id", id.incrementAndGet())
-                    .append("telephoneNumber", json.get("telephoneNumber").toString())
-                    .append("EmployeeName", json.get("EmployeeName").toString())
-                    .append("EmployeeSurname",json.get("EmployeeSurname").toString())
-                    .append("CompanyUIDNUmber",json.get("CompanyUIDNumber").toString())
-                    .append("baseSalary", Integer.parseInt(json.get("baseSalary").toString()))
-                    .append("supervisorId",Integer.parseInt(json.get("supervisorId").toString()));
+                    .append("employeeId", id.get())
+                    .append("telephoneNumber", newemployee.getTelephoneNumber())
+                    .append("name", newemployee.getName())
+                    .append("surname", newemployee.getSurname())
+                    .append("companyUIDNUmber",newemployee.getCompanyUIDNumber())
+                    .append("baseSalary", newemployee.getBaseSalary())
+                    .append("employeeSince", date)
+                    .append("supervisorId",newemployee.getSupervisorId());
             coll.insertOne(person);
             return new ResponseEntity<String>(HttpStatus.CREATED);
         } catch (Exception exc) {
@@ -57,19 +67,12 @@ public class EmployeeController {
     @DeleteMapping(value = "/delete/{id}")
     public ResponseEntity<String> deleteEmployee(@PathVariable(value = "id") int id){
 
-        try {
-            init=new Database_Init(mongo,name);
-            db=init.getDb();
-            Bson filter = Filters.eq("_id", id);
-            DeleteResult deleteResult = db.getCollection("Employee").deleteOne(filter);
-            int count = (int) deleteResult.getDeletedCount();
-            if(count==1)
-                return new ResponseEntity<String>(HttpStatus.OK);
-            else
-                return new ResponseEntity<String>(HttpStatus.NO_CONTENT);
-        } catch (Exception exc) {
-            return new ResponseEntity<String>(exc.getMessage(),HttpStatus.CONFLICT);
-        }
+        init=new Database_Init(mongo,name);
+        db=init.getDb();
+        //Bson filter = Filters.eq("schooling_ID", id);
+        MongoCollection<Document> coll = db.getCollection("Schoolings");
+        coll.deleteOne(new Document("employeeId", id));
+        return new ResponseEntity<String>(HttpStatus.OK);
     }
 
 

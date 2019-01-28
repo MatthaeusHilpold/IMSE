@@ -1,5 +1,6 @@
 package com.imse.imse;
 
+import com.imse.imse.DataInsert.DataInsert;
 import com.imse.imse.config.DbConnection;
 
 import java.sql.SQLException;
@@ -13,6 +14,9 @@ public class ImseApplication {
 	public static void main(String[] args) {
 
 		DbConnection.establish_Connection();
+
+
+		DataInsert.addCompany();
 		try {
 			Initializer.initializeDb();
 		} catch (SQLException e) {

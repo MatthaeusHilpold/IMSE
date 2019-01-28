@@ -20,7 +20,7 @@ public class SchoolingDAO implements ISchoolingDAO {
     public void saveSchooling(Schooling schooling) throws SQLException {
 
         StringBuilder saveUserQuery = new StringBuilder();
-        saveUserQuery.append("INSERT INTO Schooling(Schooling,Termin,CompanyUIDNumber,VALUES( ");
+        saveUserQuery.append("INSERT INTO Schooling(SchoolingName,Termin,CompanyUIDNumber) VALUES( ");
         saveUserQuery.append("'");
         saveUserQuery.append(schooling.getSchooling());
         saveUserQuery.append("',");
